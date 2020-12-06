@@ -5,6 +5,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define mod 1000000007
+#define mx 200007
 
 void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
@@ -35,14 +36,33 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 
 int main() {
     ios_base::sync_with_stdio(false);
-    int n, sum = 0;
+    int n; 
     cin >> n;
-    for(int i = 1; i <= n; i++) {
-        int num;
-        cin >> num;
-        sum = sum ^ num;
-        cout << sum << " ";
+    vector<int> arr(n + 1);
+    for(int i = 0; i < n; i++) {
+        cin >> arr[i];
     }
-    cout << endl;
+    if(n > 60) {
+        cout << 1 << endl;
+        return 0;
+    }
+
+    int ans = INT_MAX;
+    for(int middle = 0; middle < n - 1; middle++) {
+        int leftXor = 0;
+        for(int j = middle; j >= 0; j--) {
+            leftXor ^= arr[j];
+            int rightXor = 0;
+            for(int k = middle + 1; k < n; k++) {
+                rightXor ^= arr[k];
+                if(rightXor < leftXor) {
+                    ans = min(ans, middle - j + k - middle - 1);
+                    debug(j, middle, k);
+                }
+            }
+        }
+    }
+    if(ans == INT_MAX) ans = -1;
+    cout << ans << endl;
     return 0;
 }

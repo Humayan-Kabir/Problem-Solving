@@ -45,7 +45,7 @@ int main() {
         ans = max(ans, abs(r - 1) + abs(c - m));
         ans = max(ans, abs(r - n) + abs(c - 1));
         ans = max(ans, abs(r - n) + abs(c - m));
-        cout << 0 << endl;
+        cout << ans << endl;
     }
     return 0;
 }
