@@ -10,6 +10,7 @@
         "vector": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "ostream": "cpp"
     }
 }
