@@ -33,14 +33,23 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 
+vector<int> counter(50, 0);
+
+void rec(int sum, int depth) {
+    if(depth == 0) {
+        counter[sum]++;
+        return;
+    }
+    for(int i = 1; i <= 6; i++) {
+        rec(sum + i, depth - 1);
+    }
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
-    int x, y;
-    cin >> x >> y;
-    if((min(x, y) + 3) > max(x, y)) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
+    rec(0, 3);
+    for(int i = 1; i < 50; i++) {
+        debug(i, counter[i]);
     }
     return 0;
 }
