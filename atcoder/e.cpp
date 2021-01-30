@@ -5,7 +5,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define mod 1000000007
-#define N 200007
 
 void __print(int x) {cerr << x;}
 void __print(long x) {cerr << x;}
@@ -34,26 +33,9 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #define debug(x...)
 #endif
 typedef long long int LL;
-map<LL,LL> dp;
-LL rec(LL num, LL to) {
-    if(dp.find(num) != dp.end()) return dp[num];
-    LL way = abs(num - to);
-    if(num >= to || num <= 0) {
-        return way;
-    }
-    LL x = 2*num - 2, y = 2*num + 2;
-    if(abs(x - to) <= abs(y - to)) {
-        way = min(way, 2 + rec(2*num - 2, to));
-    } else {
-        way = min(way, 2 + rec(2*num + 2, to));
-    }
-    way = min(way, 1 + rec(2 * num, to));
-    return dp[num] = way;
-}
+
 int main() {
     ios_base::sync_with_stdio(false);
-    LL x, y;
-    cin >> x >> y;
-    cout << rec(x, y) << endl;
+    
     return 0;
 }

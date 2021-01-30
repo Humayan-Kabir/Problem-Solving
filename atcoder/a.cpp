@@ -32,24 +32,15 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-vector<int> counter(50, 0);
-
-void rec(int sum, int depth) {
-    if(depth == 0) {
-        counter[sum]++;
-        return;
-    }
-    for(int i = 1; i <= 6; i++) {
-        rec(sum + i, depth - 1);
-    }
-}
+typedef long long int LL;
 
 int main() {
     ios_base::sync_with_stdio(false);
-    rec(0, 3);
-    for(int i = 1; i < 50; i++) {
-        debug(i, counter[i]);
-    }
+    int a, b, c;
+    cin >> a >> b >> c;
+    int found = 0;
+    if(c == 0) found |= (a > b);
+    else found |= (a >= b);
+    found == 1 ? cout << "Takahashi" << endl : cout << "Aoki" << endl;
     return 0;
 }

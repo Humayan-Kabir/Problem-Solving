@@ -32,23 +32,19 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
+typedef long long int LL;
 
 int main() {
     ios_base::sync_with_stdio(false);
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    vector<int> b(n);
-    for(int i = 0; i < n; i++) cin >> a[i];
-    for(int i = 0; i < n; i++) cin >> b[i];
-    int result = 0;
-    for(int i = 0; i < n; i++) {
-        result += (a[i] * b[i]);
+    int n, s, d;
+    cin >> n >> s >> d;
+    int found = 0;
+    for(int i = 1; i <= n; i++) {
+        int x, y;
+        cin >> x >> y;
+        if(x >= s || y <= d) continue;
+        found++;
     }
-    if(result == 0) {
-        cout << "Yes" << endl;
-    } else {
-        cout << "No" << endl;
-    }
+    found ? cout << "Yes" << endl : cout << "No" << endl;
     return 0;
 }

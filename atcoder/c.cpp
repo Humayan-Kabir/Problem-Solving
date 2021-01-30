@@ -32,33 +32,10 @@ void _print(T t, V... v) {__print(t); if (sizeof...(v)) cerr << ", "; _print(v..
 #else
 #define debug(x...)
 #endif
-
-int arr[1 << 17], second;
-
-pair<int,int> fun(int b, int e) {
-    if(b == e) {
-        return make_pair(arr[b], b);
-    }
-    int mid = (b + e) / 2;
-    pair<int,int> left = fun(b, mid);
-    pair<int,int> right = fun(mid + 1, e);
-    if(left.first > right.first) {
-        second = right.second;
-        return left;
-    } else {
-        second = left.second;
-        return right;
-    }
-}
+typedef long long int LL;
 
 int main() {
     ios_base::sync_with_stdio(false);
-    int n;
-    cin >> n;
-    for(int i = 1; i <= (1 << n); i++) {
-        cin >> arr[i];
-    }
-    fun(1, 1 << n);
-    cout << second << endl;
+    
     return 0;
 }
