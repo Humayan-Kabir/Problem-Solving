@@ -68,8 +68,28 @@ int main()
     ios_base::sync_with_stdio(false);
     int n;
     cin >> n;
+    LL ans = 0;
     while(n--) {
+        int x;
+        cin >> x;
+        int sum = 0;
+        while(x > 0) {
+            sum += tree[x];
+            x -= (x & -x);
+        }
+        ans += sum;
+        while(x < MX) {
+            tree[x] += 1;
+            x += (x & -x);
+        }
 
+    }
+    for(int i = 1; i <= n; i++) {
+        if(i == 1) cout << ans << endl;
+        else {
+            ans = ans + (n - i) - (i - 1);
+            cout << ans << endl;
+        }
     }
     return 0;
 }
