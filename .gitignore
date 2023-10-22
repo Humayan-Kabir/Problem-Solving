@@ -1,0 +1,6 @@
+# Ignore all files and directories
+/*
+
+# Allow C++ files
+!**/*.cpp
+!.gitignore
