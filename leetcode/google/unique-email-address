@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int numUniqueEmails(vector<string>& emails) {
+    	unordered_set<string> emailset;
+    	for(string &email: emails) {
+  			string localName = "";
+    		string domainName = "";
+    		bool isAtFound = false;
+    		bool isPlusFound = false;
+    		for(char ch : email) {
+    			isPlusFound |= (ch == '+');
+    			isAtFound |= (ch == '@');
+    			if (isAtFound) {
+    				domainName += ch;
+    			} else if (ch != '.' && !isPlusFound) {
+    				localName += ch;
+    			}
+    		}
+    		emailset.insert(localName + domainName);
+    	}
+    	return emailset.size();
+    }
+};
