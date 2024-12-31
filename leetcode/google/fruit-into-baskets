@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+  		map<int,int> counter;
+  		int ans = 0;
+  		for(int l = 0, r = 0; r < fruits.size(); r++) {
+  			counter[fruits[r]]++;
+  			while(counter.size() > 2) {
+  				auto it = counter.find(fruits[l]);
+  				if (it->second == 1) {
+  					counter.erase(it);
+  				} else {
+  					it->second -= 1;
+  				}
+  				l++;
+  			}
+  			ans = max(ans, r - l + 1);
+  		}
+  		return ans;      
+    }
+};
