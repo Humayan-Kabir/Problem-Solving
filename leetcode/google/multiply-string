@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+  		int n = num1.size();
+  		int m = num2.size();
+  		vector<int> result(n + m + 1, 0);
+  		reverse(num1.begin(), num1.end());
+  		reverse(num2.begin(), num2.end());
+  		for(int j = 0; j < m; j++) {
+  			for(int i = 0; i < n; i++) {
+  				int product = (num1[i] - '0') * (num2[j] - '0');
+  				result[i + j] += product;
+  				result[i + j + 1] += result[i + j] / 10;
+  				result[i + j] %= 10;
+  			}
+  		}
+  		string ans = "";
+  		for(int i = result.size() - 1; i >= 0; i--) {
+  			if (result[i] == 0 && ans.size() == 0) {
+  				continue;
+  			}
+  			ans += (result[i] + '0');
+  		}
+        if (ans.size() == 0) {
+            ans = "0";
+        }   
+  		return ans;
+    }
+};
