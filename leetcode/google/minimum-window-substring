@@ -1,0 +1,41 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+  		int n = s.size();
+  		unordered_map<char,int> fq;
+  		for(char ch : t) {
+  			fq[ch]++;
+  		}
+        int m = fq.size();
+  		int matched = 0;
+  		int start = -1, len = s.size() + 1;
+  		for(int l = 0, r = 0; r < n; r++) {
+  			if (fq.find(s[r]) != fq.end()) {
+  				fq[s[r]]--;
+  				if (fq[s[r]] == 0) {
+  					matched++;
+  				}
+  			}
+  			if (matched == m) {
+  				while(l < r && (fq.find(s[l]) == fq.end() || fq[s[l]] < 0)) {
+                    if (fq.find(s[l]) != fq.end()) {
+                        fq[s[l]]++;
+                        if (fq[s[l]] == 1) {
+                            matched--;
+                        } 
+  			        }
+  					l++;
+  				}
+  				int curlen = r - l + 1;
+  				if (curlen < len) {
+  					len = curlen;
+  					start = l;
+  				}
+  			}
+  		}
+        if (start == -1) {
+            return "";
+        }
+  		return s.substr(start, len);      
+    }
+};
