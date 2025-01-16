@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+		int n = digits.size();
+		int carry = 1;
+  		vector<int> result;
+  		for(int i = n - 1; i >= 0; i--) {
+  			int sum = digits[i] + carry;
+  			carry = sum / 10;
+  			int d = sum % 10;
+  			result.push_back(d);
+  		}
+  		if (carry) {
+  			result.push_back(carry);
+  		}
+  		reverse(result.begin(), result.end());
+  		return result;      
+    }
+};
