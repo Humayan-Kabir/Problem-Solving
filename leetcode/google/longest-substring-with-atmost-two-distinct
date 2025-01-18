@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int lengthOfLongestSubstringTwoDistinct(string s) {
+  		unordered_map<char,int> counter;
+  		int unique = 0;
+  		int n = s.size();
+  		int result = 0;
+  		for(int l = 0, r = 0; r < n; r++) {
+  			counter[s[r]]++;
+  			if (counter[s[r]] == 1) {
+  				unique++;
+  			}
+  			while(l < r && unique > 2) {
+  				counter[s[l]]--;
+  				if (counter[s[l]] == 0) {
+  					unique--;
+  				}
+  				l++;
+  			}
+  			result = max(r - l + 1, result);
+  		}   
+  		return result;
+    }
+};
