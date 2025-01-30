@@ -1,0 +1,43 @@
+class Solution {
+public:
+    string nextClosestTime(string time) {
+  		int hh = (time[0] - '0') * 10 + (time[1] - '0');
+  		int mm = (time[3] - '0') * 10 + (time[4] - '0');
+  		bool possible[60] = {0};
+  		bool digit[10] = {0};
+  		for(char ch: time) {
+  			if (ch == ':') continue;
+  			digit[ch - '0'] = true;
+  		}
+  		auto check = [&](int x)->bool {
+  			if (x < 10 && !digit[0]) return false;
+  			while(x) {
+  				if (!digit[x % 10]) return false;
+  				x /= 10;
+  			}
+  			return true;
+  		};
+  		int currentHourMM = -1;
+  		for(int i = 0; i < 60; i++) {
+  			possible[i] = check(i);
+  			if(possible[i] && i > mm && currentHourMM == -1) {
+  				currentHourMM = i;
+  			}
+  		}
+  		auto make_string = [](int x) -> string {
+  			if (x < 10) return "0" + to_string(x);
+  			else return to_string(x);	
+  		};
+  		if (currentHourMM != -1) {
+  			return make_string(hh) + ":" + make_string(currentHourMM);
+  		}
+  		for(int h = (hh + 1) % 24; ; h = (h + 1) % 24) {
+  			if (!possible[h]) continue;
+  			for(int m = 0; m < 60; m++) {
+  				if (!possible[m]) continue;
+  				return make_string(h) + ":" + make_string(m);
+  			}
+  		}
+  		return "";       
+    }
+};
