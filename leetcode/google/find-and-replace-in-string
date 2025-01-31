@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string findReplaceString(string s, vector<int>& indices, vector<string>& sources, vector<string>& targets) {
+  		int n = s.length();
+  		unordered_map<int,int> mapping;
+  		for(int i = 0; i < indices.size(); i++) {
+  			int matched = 1;
+  			for(int j = 0, k = indices[i]; j < sources[i].size(); j++, k++) {
+  				if (k >= n || sources[i][j] != s[k]) {
+  					matched = 0;
+  					break;
+  				}
+  			}
+  			if (matched) {
+  				mapping[indices[i]] = i;
+  			}
+  		}
+  		string ans = "";
+  		for(int i = 0; i < n; i++) {
+  			if (mapping.find(i) != mapping.end()) {
+  				int idx = mapping[i];
+  				ans += targets[idx];
+  				i += sources[idx].size() - 1;
+  			} else {
+  				ans += s[i];
+  			}
+  		}
+  		return ans;     
+    }
+};
