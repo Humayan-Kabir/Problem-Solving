@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int expressiveWords(string s, vector<string>& words) {
+  		vector<pair<char, int>> fq;
+  		int n = s.size();
+		int m = words.size();
+  		int cnt = 0;
+  		char lastChar = s[0];
+  		for(int i = 0; i < n; i++) {
+  			if (i == 0 || s[i] == s[i - 1]) {
+  				cnt++;
+  			} else {
+  				fq.push_back({lastChar, cnt});
+  				lastChar = s[i];
+  				cnt = 1;
+  			}
+  		}
+  		fq.push_back({lastChar, cnt});
+  		auto check = [&](int idx, char ch, int counter) -> bool {
+  			if (idx >= fq.size() || ch != fq[idx].first || counter > fq[idx].second || (cnt != fq[idx].second && fq[idx].second <= 2)) {
+  				return false;
+  			}
+  			return true;		
+  		};
+  		int ans = 0;
+  		for(int i = 0; i < m; i++) {
+  			int idx = 0;
+  			bool matched = true;
+  			cnt = 0; 
+  			lastChar = words[i][0];
+  			for(int j = 0; j < words[i].size(); j++) {
+  				if (j == 0 || words[i][j - 1] == words[i][j]) {
+  					cnt++;
+  				} else {
+  					if (!check(idx, lastChar, cnt)) {
+  						matched = false;
+  						break;
+  					}
+  					idx++;
+  					lastChar = words[i][j];
+  					cnt = 1;
+  				}
+  			}
+  			if (check(idx, lastChar, cnt)) {
+  				idx++;
+  			} else {
+  				matched = false;
+  			}
+  			ans += (matched && idx == fq.size());
+  		}
+  		return ans;      
+    }
+};
