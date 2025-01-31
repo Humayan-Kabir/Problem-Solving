@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxDistToClosest(vector<int>& seats) {
+		int n = seats.size();
+    	int ans = 0;
+    	int lastPerson = -1;
+    	for(int i = 0; i < n; i++) {
+    		if (seats[i]) {
+    			if (lastPerson == -1) {
+    				ans = max(ans, i);
+    			} else {
+    				ans = max(ans, (i - lastPerson) / 2);
+    			}
+    			lastPerson = i;
+    		}
+    	}
+    	ans = max(ans, n - 1 - lastPerson);
+    	return ans;      
+    }
+};
