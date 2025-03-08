@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+  		int open = 0;
+  		int validOpen = 0;
+  		for(char ch: s) {
+  			if (ch == '(') {
+  				open++;
+  			} else if (ch == ')') {
+  				if (open) {
+  					open--;
+  					validOpen++;
+  				}
+  			}
+  		}
+  		string ans = "";
+  		open = 0;
+  		for(char ch: s) {
+  			if (ch == '(') {
+  				if (validOpen > 0) {
+  					ans += ch;
+  					open++;
+  					validOpen--;
+  				}
+  			} else if (ch == ')') {
+  				if (open) {
+  					ans += ch;
+  					open--;
+  				}
+  			} else {
+  				ans += ch;
+  			}
+  		}
+  		return ans;      
+    }
+};
