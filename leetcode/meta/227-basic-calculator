@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int calculate(string s) {
+  		int result = 0;
+  		int current = 0;
+  		int previous = 0;
+  		int n = s.size();
+  		char sign = '+';
+  		for(int i = 0; i < n; i++) {
+  			if(isdigit(s[i])) {
+  				while(i < n && isdigit(s[i])) {
+  					current = (current * 10 + (s[i] - '0'));
+					i++;
+  				}
+  				i--;
+  				if (sign == '+') {
+  					result += current;
+  					previous = current;
+  				} else if (sign == '-') {
+  					result -= current;
+  					previous = -current;
+  				} else if (sign == '*') {
+  					result -= previous;
+  					result += (previous * current);
+  					previous = (previous * current);
+  				} else {
+  					result -= previous;
+  					result += (previous / current);
+  					previous = (previous / current);
+  				}
+  				current = 0;
+  			} else if(s[i] != ' ') {
+  				sign = s[i];
+  			}
+  		}
+  		return result;      
+    }
+};
