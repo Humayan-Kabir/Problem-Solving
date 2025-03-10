@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+  		int ways = 0;
+  		int total = 0;
+  		unordered_map<int,int> fq;
+        fq[0] = 1;
+  		for(int num: nums) {
+  			total += num;
+  			ways += fq[total - k];
+  			fq[total]++;
+  		}      
+  		return ways;
+    }
+};
