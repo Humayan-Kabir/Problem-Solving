@@ -1,0 +1,18 @@
+class Solution {
+private:
+	vector<int> prefixSum;
+public:
+    Solution(vector<int>& w) {
+  		for(int i = 1; i < w.size(); i++) {
+  			w[i] += w[i - 1];
+  		}      
+  		prefixSum = w;
+    }	
+    
+    int pickIndex() {
+        int total = prefixSum[prefixSum.size() - 1];
+        int randWeight = rand() % total + 1;
+        int index = lower_bound(prefixSum.begin(), prefixSum.end(), randWeight) - prefixSum.begin();
+        return index;
+    }
+};
