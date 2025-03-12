@@ -1,0 +1,27 @@
+class MovingAverage {
+private: 
+	deque<int> dq;
+	int capacity;
+	double total;
+public:
+    MovingAverage(int size) {
+        capacity = size;
+        total = 0;
+    }
+    
+    double next(int val) {
+		dq.push_back(val);
+    	total += val;
+    	if (dq.size() > capacity) {
+    		total -= dq.front();
+    		dq.pop_front();
+    	}
+    	return total / dq.size();
+    }
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage* obj = new MovingAverage(size);
+ * double param_1 = obj->next(val);
+ */
