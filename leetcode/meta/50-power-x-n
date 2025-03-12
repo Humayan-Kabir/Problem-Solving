@@ -1,0 +1,18 @@
+class Solution {
+public:
+    double myPow(double x, int n) {
+  		if (n == 0) {
+  			return 1.0;
+  		}   
+  		double result = myPow(x, n / 2);
+  		result *= result;
+  		if (n & 1) {
+            if (n < 0) {
+                result =(1 / x) * result;
+            } else {
+                result = x * result;
+            }
+  		}
+  		return result;
+    }
+};
