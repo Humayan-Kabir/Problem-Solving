@@ -1,0 +1,38 @@
+class SparseVector {
+private: 
+    vector<pair<int,int>> pairs;
+public:
+    
+    SparseVector(vector<int> &nums) {
+        for(int i = 0; i < nums.size(); i++) {
+        	if (nums[i] != 0) {
+        		pairs.push_back({i, nums[i]});
+        	}
+        }
+    }
+    
+    // Return the dotProduct of two sparse vectors
+    int dotProduct(SparseVector& vec) {
+ 		int n = pairs.size();
+ 		int m = vec.pairs.size();
+ 		int i = 0;
+ 		int j = 0;
+ 		int result = 0;
+ 		while(i < n && j < m) {
+ 			if (pairs[i].first == vec.pairs[j].first) {
+ 				result += (pairs[i].second * vec.pairs[j].second);
+ 				i++; j++;
+ 			} else if (pairs[i].first < vec.pairs[j].first) {
+ 				i++;
+ 			} else {
+ 				j++;
+ 			}
+ 		}       
+ 		return result;
+    }
+};
+
+// Your SparseVector object will be instantiated and called as such:
+// SparseVector v1(nums1);
+// SparseVector v2(nums2);
+// int ans = v1.dotProduct(v2);
