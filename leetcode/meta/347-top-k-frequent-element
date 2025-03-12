@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+  		unordered_map<int,int> counter;
+  		for(int num: nums) {
+  			counter[num]++;
+  		}
+  		unordered_map<int, vector<int>> mapping; // key: frequeny, value : numbers
+		int maxOccur = 0;
+  		for(auto it: counter) {
+  			mapping[it.second].push_back(it.first);
+  			maxOccur = mac(maxOccur, it.second);
+  		}
+  		vector<int> result;
+  		while(k) {
+  			if (mapping.find(maxOccur) == mapping.end()) {
+  				maxOccur--;
+  				continue;
+  			}
+  			for(int num: mapping[maxOccur]) {
+  				result.push_back(num);
+  				k--;
+  				if (k == 0) {
+  					break;
+  				}
+  			}
+  		}
+  		return result;
+    }
+};
