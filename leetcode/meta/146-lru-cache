@@ -1,0 +1,70 @@
+struct Node {
+    int key;
+    int value;
+    Node* next;
+    Node* prev;
+	Node(int val): key(-1), value(val) {}
+    Node(int key, int val): key(key), value(val) {}
+};
+class LRUCache {
+private: 
+    int capacity;
+    Node* left;
+    Node* right;
+    unordered_map<int, Node*> hashmap;
+    void link(Node* a, Node* b) {
+        a->next = b;
+        b->prev = a;
+    }
+    void addEnd(Node* node) {
+        link(right->prev, node);
+        link(node, right);
+    }
+    void remove(Node* node) {
+        link(node->prev, node->next);
+        node->next = node->prev = nullptr;
+    }
+public:
+    LRUCache(int capacity) {
+		this->capacity = capacity;
+        left = new Node(-1);
+        right = new Node(-1);      
+        link(left, right);
+    }
+    
+    int get(int key) {
+        if (hashmap.find(key) == hashmap.end()) {
+            return -1;
+        }  else {
+            Node* cur = hashmap[key];
+            remove(cur);
+            addEnd(cur);
+            return cur->value;
+        }
+    }
+    
+    void put(int key, int value) {
+        if (hashmap.find(key) != hashmap.end()) {
+            Node* cur = hashmap[key];
+            cur->value = value;
+            remove(cur);
+            addEnd(cur);
+        } else {
+            Node* cur = new Node(key, value);
+            hashmap[key] = cur;
+            addEnd(cur);
+            if (hashmap.size() > capacity) {
+                Node* oldest = left->next;
+                hashmap.erase(hashmap.find(oldest->key));
+                remove(oldest);
+            }
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
