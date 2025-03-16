@@ -1,0 +1,14 @@
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        const int LOW = 26;
+        vector<int> priority(26, LOW);
+        for(int i = 0; i < order.size(); i++) {
+            priority[order[i] - 'a'] = i;
+        }
+        sort(s.begin(), s.end(), [&](char c1, char c2)-> bool {
+            return priority[c1 - 'a'] < priority[c2 - 'a'];
+        });
+        return s;
+    }
+};
