@@ -12,3 +12,27 @@ public:
         return s;
     }
 };
+
+class Solution {
+public:
+    string customSortString(string order, string s) {
+        unordered_map<char, int> fq;
+        for(char ch: s) {
+            fq[ch]++;
+        }
+        string result = "";
+        for(char ch: order) {
+            while(fq[ch] > 0) {
+                result += ch;
+                fq[ch]--;
+            }
+        }
+        for(auto& [letter, fq]: fq) {
+            while(fq > 0) {
+                result += letter;
+                fq--;
+            }
+        }
+        return result;
+    }
+};
