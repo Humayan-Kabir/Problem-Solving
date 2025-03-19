@@ -1,0 +1,54 @@
+class Solution {
+private: 
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, -1, 1};
+    int dfs(int x, int y, vector<vector<int>>& grid, int islandId) {
+        if (x < 0 || x >= grid.size() || y < 0 || y >= grid[0].size() || grid[x][y] != 1) {
+            return 0;
+        }
+        grid[x][y] = islandId;
+        int islandSize = 1;
+        for(int i = 0; i < 4; i++) {
+            islandSize += dfs(x + dx[i], y + dy[i], grid, islandId);
+        }
+        return islandSize;
+    }   
+public:
+    int largestIsland(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        int islandId = 1;
+        unordered_map<int,int> mapping;
+        int ans = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if (grid[i][j] == 1) {
+                    int islandSize = dfs(i, j, grid, ++islandId);
+                    mapping[islandId] = islandSize;
+                    ans = max(ans, islandSize);
+                }
+            }
+        }
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                if (grid[i][j] == 0) {
+                    unordered_set<int> nearest;
+                    for(int k = 0; k < 4; k++) {
+                        int x = i + dx[k];
+                        int y = j + dy[k];
+                        if (x < 0 || x >= n || y < 0 || y >= m) {
+                            continue;
+                        }
+                        nearest.insert(grid[x][y]);
+                    }
+                    int total = 1;
+                    for(auto id: nearest) {
+                        total += mapping[id];
+                    }
+                    ans = max(ans, total);
+                }
+            }
+        }
+        return ans;
+    }
+};
