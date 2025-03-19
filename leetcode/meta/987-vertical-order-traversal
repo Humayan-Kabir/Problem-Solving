@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+private: 
+    void dfs(TreeNode* node, int col, int row, unordered_map<int, vector<pair<int,int>>> &colsToNodes, int &minColumn) {
+        if (!node) {
+            return;
+        }
+        colsToNodes[col].push_back({row, node->val});
+        minColumn = min(minColumn, col);
+        dfs(node->left, col - 1, row + 1, colsToNodes, minColumn);
+        dfs(node->right, col + 1, row + 1, colsToNodes, minColumn);
+    }
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        // map col -> [(row, value)]
+        // dfs 
+        // col from min column to max column : sort list 
+        // populate ans
+        // return 
+        unordered_map<int, vector<pair<int,int>>> colsToNodes;
+        int minColumn = INT_MAX;
+        dfs(root, 0, 0, colsToNodes, minColumn);
+        vector<vector<int>> ans;
+        for(int col = minColumn; ; col++) {
+            if (colsToNodes.find(col) == colsToNodes.end()) {
+                break;
+            }
+            vector<pair<int,int>> &result = colsToNodes[col];
+            sort(result.begin(), result.end());
+            ans.push_back({});
+            for(auto &[row, node]: result) {
+                ans.back().push_back(node);
+            }
+        }
+        return ans;
+    }
+};
