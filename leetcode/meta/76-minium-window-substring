@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> counterS;
+        unordered_map<char, int> counterT;
+        for(char ch: t) {
+            counterT[ch]++;
+        }
+        int uniqueCnt = counterT.size();
+        int matched = 0;
+        int ans = s.size();
+        int start = -1;
+        for(int l = 0, r = 0; r < s.size(); r++) {
+            counterS[s[r]]++;
+            if (counterT.find(s[r]) != counterT.end() && counterS[s[r]] == counterT[s[r]]) {
+                matched++;
+            }
+            if (matched == uniqueCnt) {
+                while(l < r && (counterT.find(s[l]) == counterT.end() || counterS[s[l]] > counterT[s[l]])) {
+                    counterS[s[l]]--;
+                    l++;
+                }
+                int curlen = r - l + 1;
+                if (curlen <= ans) {
+                    ans = curlen;
+                    start = l;
+                }
+            }
+        }
+        if (start == -1) {
+            return "";
+        }
+        return s.substr(start, ans);
+    }
+};
