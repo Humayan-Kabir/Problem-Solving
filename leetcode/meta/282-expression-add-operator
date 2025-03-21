@@ -1,0 +1,60 @@
+class Solution {
+private: 
+    void backtrack(string &num, int pos, long long current, long long last, long long target, vector<string> &ans, vector<string> &solution) {
+        if (pos == num.size()) {
+            if (current == target) {
+                string result;
+                for(string &s: solution) {
+                    result += s;
+                }
+                ans.push_back(result);
+            }
+            return;
+        }
+        long long digit = 0;
+        for(int i = pos; i < num.size(); i++) {
+            // + operator
+            long long tempCur = current;
+            long long tempLast = last;
+            digit = (digit * 10 + num[i] - '0');
+            if (num[pos] == '0' && i > pos) {
+               continue;
+            }
+            tempCur += digit;
+            tempLast = digit;
+            solution.push_back(pos == 0 ? to_string(digit) : "+" + to_string(digit));
+            backtrack(num, i + 1, tempCur, tempLast, target, ans, solution);
+            solution.pop_back();
+            if (pos > 0) {
+                // - operator
+                tempCur = current;
+                tempLast = last;
+                tempCur -= digit;
+                tempLast = -digit;
+                solution.push_back("-" + to_string(digit));
+                backtrack(num, i + 1, tempCur, tempLast, target, ans, solution);
+                solution.pop_back();
+                // * operator
+                tempCur = current;
+                tempLast = last;
+                tempCur -= tempLast;
+                tempCur += tempLast * digit;
+                tempLast = tempLast * digit;
+                solution.push_back("*" + to_string(digit));
+                backtrack(num, i + 1, tempCur, tempLast, target, ans, solution);
+                solution.pop_back();
+                // / operator
+                if (digit > 0) {
+                }
+            }
+        }
+    }
+public:
+    vector<string> addOperators(string num, int target) {
+        int n = num.size();
+        vector<string> ans;
+        vector<string> solution;
+        backtrack(num, 0, 0, 0, target, ans, solution);
+        return ans;
+    }
+};
