@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int,int> hashmap;
+        hashmap[k] = -1;
+        int total = 0;
+        for(int i = 0; i < n; i++) {
+            total += nums[i];
+            total %= k;
+            int need = k - total;
+            if (hashmap.find(need) != hashmap.end()) {
+                int len = i - hashmap[need];
+                if (len >= 2) {
+                    return true;
+                }
+            } else {
+                hashmap[need] = i;
+            }
+        }
+        return false;
+    }
+};
