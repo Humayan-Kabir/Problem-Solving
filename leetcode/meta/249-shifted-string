@@ -1,0 +1,24 @@
+class Solution {
+private: 
+    string getBaseString(string s) {
+        int n = s.size();
+        int delta = s[0] - 'a';
+        for(int i = 0; i < n; i++) {
+            int shifted = (s[i] - delta + 26) % 26;
+            s[i] = 'a' + shifted;
+        }
+        return s;
+    }
+public:
+    vector<vector<string>> groupStrings(vector<string>& strings) {
+        unordered_map<string, vector<string>> hashmap;
+        for(string &str: strings) {
+            hashmap[getBaseString(str)].push_back(str);
+        }
+        vector<vector<string>> ans;
+        for(auto &[key, group]: hashmap) {
+            ans.push_back(group);
+        }
+        return ans;
+    }
+};
