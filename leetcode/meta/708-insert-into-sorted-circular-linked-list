@@ -1,0 +1,53 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+    }
+
+    Node(int _val, Node* _next) {
+        val = _val;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* insert(Node* head, int insertVal) {
+        // create new node
+        // current -> next node 
+        // put middle 
+        Node* newNode = new Node(insertVal);
+        if (!head) {
+            newNode->next = newNode;
+            return newNode;
+        }
+        Node* maxNode = head;
+        Node* minNode = head->next;
+        Node* current = head;
+        do {
+            Node* nextNode = current->next;
+            if (current->val <= insertVal && insertVal <= nextNode->val) {
+                newNode->next = nextNode;
+                current->next = newNode;
+                return head;
+            }
+            if (current->val > nextNode->val) {
+                maxNode = current;
+                minNode = nextNode;
+            }
+            current = current->next;
+        } while(current != head);
+        maxNode->next = newNode;
+        newNode->next = minNode;
+        return head;
+    }
+};
