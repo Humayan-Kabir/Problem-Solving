@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        int lo = 0, high = n - 1;
+        int point = n;
+        while(lo <= high){
+            int mid = (lo + high) / 2;
+            if(arr[mid] - (mid + 1) >= k){
+                point = mid;
+                high = mid - 1;
+            }else{
+                lo = mid + 1;
+            }
+        }
+        if (point == 0) {
+        	return k;
+        }
+        int rem = k - (arr[point - 1] - point);
+        return arr[point - 1] + rem;
+    }
+};
