@@ -1,0 +1,66 @@
+class DSU {
+private:
+    vector<int> parent;
+    vector<int> rank;
+public:
+    DSU(int n) {
+        parent = vector<int>(n);
+        rank = vector<int>(n, 1);
+        for(int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
+    }
+    int findParent(int node) {
+        if (node == parent[node]) {
+            return node;
+        }
+        return parent[node] = findParent(parent[node]);
+    }
+    void makeUnion(int p, int q) {
+        int p1 = findParent(p);
+        int p2 = findParent(q);
+        if (p1 == p2) {
+            return;
+        }
+        if (rank[p1] > rank[p2]) {
+            rank[p1] += rank[p2];
+            parent[p2] = p1;
+        } else {
+            rank[p2] += rank[p1];
+            parent[p1] = p2;
+        }
+    }
+};
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size();
+        DSU dsu(n);
+        unordered_map<string, int> emailToIndex;
+        for(int i = 0; i < n; i++) {
+            for(int j = 1; j < accounts[i].size(); j++) {
+                string& email = accounts[i][j];
+                if (emailToIndex.find(email) != emailToIndex.end()) {
+                    dsu.makeUnion(i, emailToIndex[email]);
+                }
+                emailToIndex[email] = i;
+            }
+        }
+        unordered_map<int, vector<string>> groupToEmails;
+        for(auto& [email, idx]: emailToIndex) {
+            int groupId = dsu.findParent(idx);
+            groupToEmails[groupId].push_back(email);
+        }
+        vector<vector<string>> ans;
+        for(auto& [groupId, emails]: groupToEmails) {
+            vector<string> groups;
+            groups.push_back(accounts[groupId][0]);
+            for(string& email: emails) {
+                groups.push_back(email);
+            }
+            sort(groups.begin() + 1, groups.end());
+            ans.push_back(groups);
+        }
+        return ans;
+    }
+};
