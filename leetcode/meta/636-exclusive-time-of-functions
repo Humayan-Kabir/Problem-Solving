@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+  		vector<int> counter(n, 0);
+  		stack<int> stk;
+  		int lastTimeStamp = 0;
+  		for(string &log: logs) {
+  			stringstream ss(log);
+  			string token;
+  			vector<string> parsed;
+  			while(getline(ss, token, ':')) {
+  				parsed.push_back(token);
+  			}
+  			int processId = stoi(parsed[0]);
+  			int timestamp = stoi(parsed[2]);
+  			if (parsed[1] == "start") {
+  				if (!stk.empty()) {
+  					counter[stk.top()] += timestamp - lastTimeStamp;
+  				}
+  				stk.push(processId);
+  				lastTimeStamp = timestamp;
+  			} else {
+  				counter[stk.top()] += timestamp - lastTimeStamp + 1;
+  				stk.pop();
+  				lastTimeStamp = timestamp + 1;
+  			}
+  		}      
+  		return counter;
+    }
+};
