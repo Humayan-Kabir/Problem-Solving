@@ -1,0 +1,35 @@
+class Solution {
+private: 
+    int dfs(int u, vector<int> &colors, vector<vector<int>> &adj) {
+        if (colors[u] == 1) {
+            return true;
+        } 
+        if (colors[u] == 2) {
+            return false;
+        }
+        colors[u] = 1;
+        for(int v: adj[u]) {
+            if (dfs(v, colors, adj)) {
+                return true;
+            }
+        }
+        colors[u] = 2;
+        return false;
+    }
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int> colors(numCourses, 0);
+        vector<vector<int>> adj(numCourses);
+        for(auto& edge: prerequisites) {
+            adj[edge[1]].push_back(edge[0]); // [a, b] : b -> a
+        }
+        for(int i = 0; i < numCourses; i++) {
+            if (colors[i] == 0 && dfs(i, colors, adj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
+// Time : O(N)
+// Space: O(N) : N + N + Stack(N)
