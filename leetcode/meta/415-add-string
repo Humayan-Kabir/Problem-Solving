@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        int n = num1.size();
+        int m = num2.size();
+        int carry = 0;
+        string result;
+        while(n > 0 && m > 0) {
+            int sum = num1[n - 1] - '0' + num2[m - 1] - '0';
+            char digit = '0' + (sum + carry) % 10;
+            carry = (sum + carry) / 10;
+            result.push_back(digit);
+            n--; m--;
+        }
+        while(n) {
+            int sum = num1[n - 1] - '0';
+            char digit = '0' + (sum + carry) % 10;
+            carry = (sum + carry) / 10;
+            result.push_back(digit);
+            n--;
+        } 
+        while(m) {
+            int sum = num2[m - 1] - '0';
+            char digit = '0' + (sum + carry) % 10;
+            carry = (sum + carry) / 10;
+            result.push_back(digit);
+            m--;
+        }
+        if (carry) {
+            result.push_back('0' + carry);
+        }
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
