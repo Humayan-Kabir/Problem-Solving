@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string toGoatLatin(string sentence) {
+        string extra;
+        string result;
+        stringstream ss(sentence);
+        string word;
+        string vowel = "aeiouAEIOU";
+        while(getline(ss, word, ' ')) {
+            extra.push_back('a');
+            if (!vowel.contains(word[0])) {
+                word.push_back(word[0]);
+                word =  word.substr(1);
+            }
+            result += word;
+            result += "ma";
+            result += extra;
+            result += " ";
+        }      
+        result.pop_back();
+        return result;
+    }
+};
