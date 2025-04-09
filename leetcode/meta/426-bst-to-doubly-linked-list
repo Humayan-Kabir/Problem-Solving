@@ -1,0 +1,51 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
+        left = NULL;
+        right = NULL;
+    }
+
+    Node(int _val, Node* _left, Node* _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* treeToDoublyList(Node* root) {
+        if (!root) {
+            return nullptr;
+        }
+        Node* head = new Node(-1);
+        Node* last = head;
+        Node* curr = root;
+        stack<Node*> stk;
+        while(curr || !stk.empty()) {
+            while(curr) {
+                stk.push(curr);
+                curr = curr->left;
+            }
+            curr = stk.top();
+            stk.pop();
+            last->right = curr;
+            curr->left = last;
+            last = curr;
+            curr = curr->right;
+        }
+        head->right->left = last;
+        last->right = head->right;
+        return head->right;
+    }
+};
