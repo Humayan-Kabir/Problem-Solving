@@ -1,0 +1,53 @@
+/**
+ * // This is the robot's control interface.
+ * // You should not implement it, or speculate about its implementation
+ * class Robot {
+ *   public:
+ *     // Returns true if the cell in front is open and robot moves into the cell.
+ *     // Returns false if the cell in front is blocked and robot stays in the current cell.
+ *     bool move();
+ *
+ *     // Robot will stay in the same cell after calling turnLeft/turnRight.
+ *     // Each turn will be 90 degrees.
+ *     void turnLeft();
+ *     void turnRight();
+ *
+ *     // Clean the current cell.
+ *     void clean();
+ * };
+ */
+
+class Solution {
+private: 
+    int dx[4] = {-1, 0, 1, 0};
+    int dy[4] = {0, 1, 0, -1};
+    void dfs(int row, int col, int dir, Robot& robot, unordered_set<string> &visited) {
+        robot.clean();
+        visited.insert(getCode(row, col));
+        for(int i = 0; i < 4; i++) {
+            int newDir = (dir + i) % 4;
+            int x = row + dx[newDir];
+            int y = col + dy[newDir];
+            if (visited.find(getCode(x, y)) == visited.end() && robot.move()) {
+                dfs(x, y, newDir, robot, visited);
+                goback(robot);
+            } 
+            robot.turnRight();  
+        }
+    }
+    void goback(Robot &robot) {
+        robot.turnRight();
+        robot.turnRight();
+        robot.move();
+        robot.turnRight();
+        robot.turnRight();
+    }
+    string getCode(int row, int col) {
+        return to_string(row) + ":" + to_string(col);
+    }
+public:
+    void cleanRoom(Robot& robot) {
+        unordered_set<string> visited;
+        dfs(0, 0, 0, robot, visited);
+    }
+};
