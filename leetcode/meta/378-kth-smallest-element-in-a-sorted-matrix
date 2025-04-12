@@ -1,0 +1,30 @@
+struct Node {
+    int row;
+    int col;
+    int val;
+    Node(int row, int col, int val): row(row), col(col), val(val) {};
+    bool operator<(const Node &other) const {
+        return val > other.val;
+    }
+};
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        priority_queue<Node> pq;
+        for(int i = 0; i < n; i++) {
+            pq.push(Node(i, 0, matrix[i][0]));
+        }
+        int result;
+        while(k--) {
+            Node top = pq.top();
+            pq.pop();
+            result = top.val;
+            if (top.col + 1 < m) {
+                pq.push(Node(top.row, top.col + 1, matrix[top.row][top.col + 1]));
+            }
+        }
+        return result;
+    }
+};
