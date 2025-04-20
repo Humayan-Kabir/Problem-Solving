@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        auto comp = [&](auto &a, auto &b) {
+            if(a[0] == b[0]) {
+                return a[1] > b[1];
+            }
+            return a[0] < b[0];
+        };
+        sort(envelopes.begin(), envelopes.end(), comp);
+        set<int> s;
+        for(auto &envelop: envelopes) {
+            int h = envelop[1];
+            auto it = s.lower_bound(h);
+            if(it != s.end()) {
+                s.erase(it);
+            }
+            s.insert(h);
+        }
+        return s.size();
+    }
+};
