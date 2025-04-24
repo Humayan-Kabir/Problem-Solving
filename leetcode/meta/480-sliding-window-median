@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+  		// two set left, right 
+  		int n = nums.size();
+  		multiset<int> left;
+  		multiset<int> right;
+  		vector<double> ans;
+  		for(int i = 0; i < n; i++) {
+  			if(i >= k) { // remove old element
+  				if(nums[i - k] <= *left.rbegin()) {
+  					left.erase(left.find(nums[i - k]));
+  				} else {
+  					right.erase(right.find(nums[i - k]));
+  				}
+  			}
+  			// insert new element
+  			left.insert(nums[i]);
+  			// balance
+  			right.insert(*left.rbegin());
+  			left.erase(prev(left.end()));
+  			if(left.size() < right.size()) {
+  				left.insert(*right.begin());
+  				right.erase(right.begin());
+  			}
+  			// caluculate median
+  			if(i >= k - 1) {
+  				if(k&1) {
+  					ans.push_back(*left.rbegin());
+  				} else {
+  					double sum = (double) *left.rbegin() + (double) *right.begin();
+  					ans.push_back(sum / 2.0);
+  				}
+  			}
+  		}
+  		return ans;      
+    }
+};
