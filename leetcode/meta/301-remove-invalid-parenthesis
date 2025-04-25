@@ -1,0 +1,47 @@
+class Solution {
+private:
+    void dfs(int pos, int open, int leftRem, int rightRem, string curResult, string &s, set<string> &result) {
+        if(open < 0 || leftRem < 0 || rightRem < 0) {
+            return;
+        }
+        if(pos == s.size()) {
+            if(leftRem == 0 && rightRem == 0 && open == 0) {
+                result.insert(curResult);
+            }
+            return;
+        }
+        char ch = s[pos];
+        if(ch == '(') {
+            dfs(pos + 1, open + 1, leftRem, rightRem, curResult + ch, s, result);
+            dfs(pos + 1, open, leftRem - 1, rightRem, curResult, s, result);
+        } else if(ch == ')') {
+            dfs(pos + 1, open - 1, leftRem, rightRem, curResult + ch, s, result);
+            dfs(pos + 1, open, leftRem, rightRem - 1, curResult, s, result);
+        } else {
+            dfs(pos + 1, open, leftRem, rightRem, curResult + ch, s, result);
+        }
+    }
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        int left = 0;
+        int right = 0;
+        for(char ch: s) {
+            if(ch == '(') {
+                left++;
+            } else if(ch == ')') {
+                if(left > 0) {
+                    left--;
+                } else {
+                    right++;
+                }
+            }
+        }
+        set<string> result;
+        dfs(0, 0, left, right, "", s, result);
+        vector<string> ans;
+        for(auto res: result) {
+            ans.push_back(res);
+        }
+        return ans;
+    }
+};
