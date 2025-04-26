@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxLength(vector<int>& ribbons, int k) {
+        auto check = [&](int x) -> bool {
+            long long total = 0;
+            for(int ribbon: ribbons) {
+                total += ribbon / x;
+            }
+            return total >= 1LL * k;
+        };
+        int low = 1;
+        int high = 1e9;
+        int ans = 0;
+        while(low <= high) {
+            int mid = (low + high) / 2;
+            if(check(mid)) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+};
