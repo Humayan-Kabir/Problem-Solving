@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string findCommonResponse(vector<vector<string>>& responses) {
+        map<string,int> fq;
+        for(auto response: responses) {
+            unordered_map<string, bool> visited;
+            for(string &word: response) {
+                if(visited.find(word) == visited.end()) {
+                    fq[word]++;
+                }
+                visited[word] = true;
+            }
+        }
+        string ans;
+        int counter = 0;
+        for(auto &[key, value]: fq) {
+            if(value > counter) {
+                counter = value;
+                ans = key;
+            }
+        }
+        return ans;
+    }
+};
