@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> notTaken(wordList.begin(), wordList.end());
+        queue<string> q;
+        q.push(beginWord);
+        notTaken.erase(beginWord);
+        int level = 0;
+        while(!q.empty()) {
+            int levelSize = q.size();
+            for(int i = 0; i < levelSize; i++) {
+                string word = q.front();
+                q.pop();
+                if(word == endWord) {
+                    return level + 1;
+                }
+                for(int j = 0; j < word.size(); j++) {
+                    char prev = word[j];
+                    for(int k = 0; k < 26; k++) {
+                        char newChar = 'a' + k;
+                        word[j] = newChar;
+                        if(notTaken.find(word) != notTaken.end()) {
+                            notTaken.erase(word);
+                            q.push(word);
+                        }
+                    }
+                    word[j] = prev;
+                }
+            }
+            level++;
+        }
+        return 0;
+    }
+};
+// Time: (N * M * 26)
+// Space: (N) : each word
