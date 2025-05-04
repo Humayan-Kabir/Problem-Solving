@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> minAvailableDuration(vector<vector<int>>& slots1, vector<vector<int>>& slots2, int duration) {
+        sort(slots1.begin(), slots1.end());
+        sort(slots2.begin(), slots2.end());
+        int i = 0;
+        int j = 0;
+        int n = slots1.size();
+        int m = slots2.size();
+        while(i < n && j < m) {
+            int x = max(slots1[i][0], slots2[j][0]);
+            int y = min(slots1[i][1], slots2[j][1]);
+            if(x <= y && y - x >= duration) {
+                return {x, x + duration};
+            }
+            if(slots1[i][1] < slots2[j][1]) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+        return {};
+    }
+};
