@@ -1,0 +1,43 @@
+class MedianFinder {
+    priority_queue<int,vector<int>, greater<int>> frontHeap; // minHeap
+    priority_queue<int> backHeap; // maxHeap
+    
+    // always keep  0 <= frontHeapSize - backHeapSize <= 1
+    void balanceHeaps(){
+        if(backHeap.size() > frontHeap.size()){
+            int val = backHeap.top();
+            backHeap.pop();
+            frontHeap.push(val);
+        }
+    }
+public:
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        backHeap.push(num);
+        frontHeap.push(backHeap.top());
+        backHeap.pop();
+        if(backHeap.size() < frontHeap.size()) {
+            backHeap.push(frontHeap.top());
+            frontHeap.pop();
+        }
+    }
+    
+    double findMedian() {
+        if((backHeap.size() + frontHeap.size()) % 2 == 0){
+            return (backHeap.top() + frontHeap.top())/2.0;
+        }
+        else{
+            return backHeap.top() * 1.0;
+        }
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
