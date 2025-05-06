@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if (numRows == 1 || numRows >= s.size()) {
+            return s;
+        }
+        vector<string> rows(numRows, "");
+        int currentRow = 0;
+        int step = 1;
+        int n = s.size();
+        for(int i = 0; i < n; i++) {
+            rows[currentRow].push_back(s[i]);
+            if(currentRow == 0) {
+                step = 1;
+            } else if (currentRow == numRows - 1) {
+                step = -1;
+            }
+            currentRow += step;
+        }
+        string ans = "";
+        for(string word: rows) {
+            ans += word;
+        }
+        return ans;
+    }
+};
