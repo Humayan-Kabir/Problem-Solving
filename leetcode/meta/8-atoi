@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int n = s.size();
+        int px = 0;
+        while(px < n && s[px] == ' ') {
+            px++;
+        }
+        int sign = 1;
+        if(px < n && s[px] == '-') {
+            sign = -1;
+            px++;
+        } else if (px < n && s[px] == '+') {
+            sign = 1;
+            px++;
+        }
+        int current = 0;
+        while(px < n && isdigit(s[px])) {
+            int d = s[px] - '0';
+            if((current > INT_MAX / 10) || (current == INT_MAX / 10 && d > INT_MAX % 10)) {
+                return sign == 1 ? INT_MAX : INT_MIN;
+            }
+            current = current * 10 + d;
+            px++;
+        }   
+        return current * sign;
+    }
+};
