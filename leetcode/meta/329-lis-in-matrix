@@ -1,0 +1,38 @@
+class Solution {
+private: 
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, -1, 1};
+    int dfs(int x, int y, vector<vector<int>>& matrix, vector<vector<int>>& cache) {
+        if(x < 0 || x >= matrix.size() || y < 0 || y >= matrix[0].size()) {
+            return 0;
+        }
+        if(cache[x][y] != 0) {
+            return cache[x][y];
+        }
+        int len = 0;
+        for(int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(nx < 0 || nx >= matrix.size() || ny < 0 || ny >= matrix[0].size()) {
+                continue;
+            }
+            if(matrix[nx][ny] > matrix[x][y]) {
+                len = max(len, dfs(nx, ny, matrix, cache));
+            }
+        }
+        return cache[x][y] = len + 1;
+    }
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        vector<vector<int>> cache(n, vector<int>(m, 0));
+        int ans = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                ans = max(ans, dfs(i, j, matrix, cache));
+            }
+        }
+        return ans;
+    }
+};
