@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int numTilings(int n) {
+        if(n <= 2) {
+            return n;
+        }
+        int f[3] = {1, 2};
+        int p = 1;
+        int mod = 1e9 + 7;
+        for(int i = 3; i <= n; i++) {
+            int ways = (f[0] + f[1]) % mod;
+            ways = (ways + (2 * p) % mod) % mod;
+            p = (p + f[0]) % mod;
+            f[0] = f[1];
+            f[1] = ways;
+        }
+        return f[1];
+    }
+};
+// n - 1, n - 2, 2 * n - 3
+// 1 -> 1, 2 -> 2, 3 -> 5
