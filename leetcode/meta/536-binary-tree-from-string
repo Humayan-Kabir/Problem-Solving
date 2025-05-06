@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+private: 
+    int parseNum(string &s, int &idx) {
+        int sign = 1;
+        if(s[idx] == '-') {
+            sign = -1;
+            idx++;
+        }
+        int num = 0;
+        while(idx < s.size() && isdigit(s[idx])) {
+            num = (num * 10 + s[idx] - '0');
+            idx++;
+        }
+        return num * sign;
+    }
+    TreeNode* getTree(string &s, int &idx) {
+        if(idx >= s.size()) {
+            return nullptr;
+        }
+        TreeNode *node = new TreeNode(parseNum(s, idx));
+        if(idx < s.size() && s[idx] == '(') {
+            idx++;
+            node->left = getTree(s, idx);
+            idx++;
+        }
+        if(idx < s.size() && s[idx] == '(') {
+            idx++;
+            node->right = getTree(s, idx);
+            idx++;
+        }
+        return node;
+    }
+public:
+    TreeNode* str2tree(string s) {
+        int index = 0;
+        return getTree(s, index);
+    }
+};
