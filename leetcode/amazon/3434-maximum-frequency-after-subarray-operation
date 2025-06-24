@@ -1,0 +1,25 @@
+class Solution {
+    public int maxFrequency(int[] nums, int k) {
+        int n = nums.length;
+        int counter = 0;
+        for(int i = 0; i < n; i++) {
+            counter += nums[i] == k ? 1 : 0;
+        }
+        int ans = counter;
+        for(int i = 1; i <= 50; i++) {
+            int total = 0;
+            for(int j = 0; j < n; j++) {
+                if(nums[j] == k) {
+                    total--;
+                } else if(nums[j] == i) {
+                    total++;
+                }
+                if(total < 0) {
+                    total = 0;
+                }
+                ans = Math.max(ans, total + counter);
+            }
+        }
+        return ans;
+    }
+}
